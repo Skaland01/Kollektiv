@@ -34,15 +34,15 @@ struct TasksView: View {
                 } label: {
                     HStack {
                         Label(selectedCategory.rawValue, systemImage: selectedCategory.icon)
-                            .font(.headline)
+                            .font(.subheadline)
                         Image(systemName: "chevron.down")
-                            .font(.caption)
+                            .font(.caption2)
                     }
-                    .padding()
-                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 12)
                     .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .padding(.horizontal)
+                    .cornerRadius(8)
+                    .frame(maxWidth: 200)
                 }
                 
                 // Custom Filter Tabs
