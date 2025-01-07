@@ -62,8 +62,15 @@ struct TasksView: View {
                         selectedFilter = .history
                     }
                 }
-                .padding(.vertical, 16)
+                .padding(.top, 16)
+                .padding(.bottom, 8)
                 .padding(.horizontal)
+                
+                // Add this separator
+                Rectangle()
+                    .fill(Color(.systemGray5))
+                    .frame(height: 1)
+                    .padding(.horizontal)
                 
                 // Task List
                 List {
