@@ -26,4 +26,4 @@ struct Room: Identifiable, Hashable {
     static func == (lhs: Room, rhs: Room) -> Bool {
         lhs.id == rhs.id
     }
-} 
+}

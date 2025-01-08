@@ -6,6 +6,7 @@ struct CollectiveView: View {
     @State private var showCreateCollective = false
     @State private var showAddMember = false
     @State private var showAddRoom = false
+    @State private var pendingInvitations: [Invitation] = []
     
     var body: some View {
         NavigationView {
@@ -31,6 +32,31 @@ struct CollectiveView: View {
                                 HStack {
                                     Image(systemName: "person.badge.plus")
                                     Text("Add Member")
+                                }
+                            }
+                        }
+                        
+                        Section(header: Text("Pending Invitations")) {
+                            if collective.pendingInvitations.isEmpty {
+                                Text("No pending invitations")
+                                    .foregroundColor(.secondary)
+                            } else {
+                                ForEach(collective.pendingInvitations) { invitation in
+                                    HStack {
+                                        VStack(alignment: .leading) {
+                                            Text(invitation.email)
+                                            Text("Invited \(invitation.dateCreated, style: .relative)")
+                                                .font(.caption)
+                                                .foregroundColor(.secondary)
+                                        }
+                                        Spacer()
+                                        Text(invitation.status.rawValue)
+                                            .font(.caption)
+                                            .foregroundColor(.orange)
+                                            .padding(4)
+                                            .background(Color.orange.opacity(0.1))
+                                            .cornerRadius(4)
+                                    }
                                 }
                             }
                         }

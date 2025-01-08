@@ -4,6 +4,7 @@ struct AddMemberView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var collective: Collective
     @State private var email = ""
+    @State private var invitationSent = false
     
     var body: some View {
         NavigationView {
@@ -12,26 +13,54 @@ struct AddMemberView: View {
                     TextField("Email", text: $email)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
+                        .disabled(invitationSent)
                 }
                 
-                Section {
-                    Button("Send Invitation") {
-                        // TODO: Implement invitation
-                        dismiss()
+                if invitationSent {
+                    Section {
+                        HStack {
+                            Image(systemName: "clock.fill")
+                                .foregroundColor(.orange)
+                            Text("Invitation Pending")
+                                .foregroundColor(.orange)
+                        }
+                        Text("Waiting for \(email) to accept")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                     }
-                    .disabled(email.isEmpty)
+                } else {
+                    Section {
+                        Button("Send Invitation") {
+                            sendInvitation()
+                        }
+                        .disabled(email.isEmpty)
+                    }
                 }
             }
             .navigationTitle("Invite Member")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
+                    Button("Done") {
                         dismiss()
                     }
                 }
             }
         }
+    }
+    
+    private func sendInvitation() {
+        let invitation = Invitation(
+            collectiveId: collective.id,
+            email: email,
+            invitedBy: "currentUser",
+            status: .pending,
+            dateCreated: Date()
+        )
+        collective.pendingInvitations.append(invitation)
+        invitationSent = true
+        
+        // TODO: Send actual invitation email/notification
     }
 }
 

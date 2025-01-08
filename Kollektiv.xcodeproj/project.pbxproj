@@ -18,6 +18,7 @@
 		F05C593D2D2EAFEE001A137C /* Collective.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C593A2D2EAFED001A137C /* Collective.swift */; };
 		F05C593F2D2EB22B001A137C /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C593E2D2EB22B001A137C /* AddMemberView.swift */; };
 		F05C59412D2EB3CC001A137C /* CreateCollectiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C59402D2EB3CC001A137C /* CreateCollectiveView.swift */; };
+		F05C59432D2EB646001A137C /* Invitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C59422D2EB646001A137C /* Invitation.swift */; };
 		F06CB0762D2DB062008B3945 /* KollektivApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CB0752D2DB062008B3945 /* KollektivApp.swift */; };
 		F06CB0782D2DB062008B3945 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CB0772D2DB062008B3945 /* ContentView.swift */; };
 		F06CB07A2D2DB065008B3945 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F06CB0792D2DB065008B3945 /* Assets.xcassets */; };
@@ -64,6 +65,7 @@
 		F05C593A2D2EAFED001A137C /* Collective.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collective.swift; sourceTree = "<group>"; };
 		F05C593E2D2EB22B001A137C /* AddMemberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMemberView.swift; sourceTree = "<group>"; };
 		F05C59402D2EB3CC001A137C /* CreateCollectiveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCollectiveView.swift; sourceTree = "<group>"; };
+		F05C59422D2EB646001A137C /* Invitation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Invitation.swift; sourceTree = "<group>"; };
 		F06CB0722D2DB062008B3945 /* Kollektiv.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kollektiv.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F06CB0752D2DB062008B3945 /* KollektivApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KollektivApp.swift; sourceTree = "<group>"; };
 		F06CB0772D2DB062008B3945 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 		F06CB0A42D2DB17F008B3945 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F05C59422D2EB646001A137C /* Invitation.swift */,
 				F05C593A2D2EAFED001A137C /* Collective.swift */,
 				F05C59382D2EAFED001A137C /* RoomType.swift */,
 				F05C59392D2EAFED001A137C /* User.swift */,
@@ -338,6 +341,7 @@
 				F06CB0A92D2DB17F008B3945 /* CollectiveView.swift in Sources */,
 				F05C593B2D2EAFEE001A137C /* RoomType.swift in Sources */,
 				F05C593F2D2EB22B001A137C /* AddMemberView.swift in Sources */,
+				F05C59432D2EB646001A137C /* Invitation.swift in Sources */,
 				F05C593D2D2EAFEE001A137C /* Collective.swift in Sources */,
 				F06CB0AE2D2DB367008B3945 /* TaskFilter.swift in Sources */,
 				F05C59312D2EABEB001A137C /* RoomAssignment.swift in Sources */,
