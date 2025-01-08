@@ -27,4 +27,12 @@ struct Collective: Identifiable {
         let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         return String((0..<6).map { _ in letters.randomElement()! })
     }
+    
+    mutating func generateNewInviteCode() {
+        // Generate a new 8-character alphanumeric code
+        let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        self.inviteCode = String((0..<8).map { _ in
+            characters.randomElement()!
+        })
+    }
 } 

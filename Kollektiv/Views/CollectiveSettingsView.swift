@@ -3,12 +3,16 @@ import SwiftUI
 struct CollectiveSettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var collective: Collective
+    @Binding var collectives: [Collective]
+    @Binding var selectedCollective: Collective?
     @State private var name: String
     @State private var description: String
     @State private var showConfirmDelete = false
     
-    init(collective: Binding<Collective>) {
+    init(collective: Binding<Collective>, collectives: Binding<[Collective]>, selectedCollective: Binding<Collective?>) {
         self._collective = collective
+        self._collectives = collectives
+        self._selectedCollective = selectedCollective
         self._name = State(initialValue: collective.wrappedValue.name)
         self._description = State(initialValue: collective.wrappedValue.description ?? "")
     }
@@ -37,7 +41,9 @@ struct CollectiveSettingsView: View {
                     }
                     
                     Button("Generate New Code") {
-                        // TODO: Implement code regeneration
+                        withAnimation {
+                            collective.generateNewInviteCode()
+                        }
                     }
                     .foregroundColor(.orange)
                 }
@@ -66,7 +72,7 @@ struct CollectiveSettingsView: View {
                     }
                 }
                 
-                if collective.createdBy == "currentUser" { // Replace with actual user check
+                if collective.createdBy == "currentUser" {
                     Section {
                         Button("Delete Collective") {
                             showConfirmDelete = true
@@ -95,8 +101,7 @@ struct CollectiveSettingsView: View {
             .alert("Delete Collective", isPresented: $showConfirmDelete) {
                 Button("Cancel", role: .cancel) { }
                 Button("Delete", role: .destructive) {
-                    // TODO: Implement delete
-                    dismiss()
+                    deleteCollective()
                 }
             } message: {
                 Text("Are you sure you want to delete this collective? This action cannot be undone.")
@@ -107,6 +112,14 @@ struct CollectiveSettingsView: View {
     private func saveChanges() {
         collective.name = name
         collective.description = description
+        dismiss()
+    }
+    
+    private func deleteCollective() {
+        if let index = collectives.firstIndex(where: { $0.id == collective.id }) {
+            collectives.remove(at: index)
+            selectedCollective = nil
+        }
         dismiss()
     }
 } 

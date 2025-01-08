@@ -217,13 +217,17 @@ struct CollectiveView: View {
             }
             .sheet(isPresented: $showSettings) {
                 if let index = collectives.firstIndex(where: { $0.id == selectedCollective?.id }) {
-                    CollectiveSettingsView(collective: Binding(
-                        get: { self.collectives[index] },
-                        set: { newValue in
-                            self.collectives[index] = newValue
-                            self.selectedCollective = newValue
-                        }
-                    ))
+                    CollectiveSettingsView(
+                        collective: Binding(
+                            get: { self.collectives[index] },
+                            set: { newValue in
+                                self.collectives[index] = newValue
+                                self.selectedCollective = newValue
+                            }
+                        ),
+                        collectives: $collectives,
+                        selectedCollective: $selectedCollective
+                    )
                 }
             }
         }
