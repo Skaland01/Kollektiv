@@ -8,6 +8,13 @@ struct CollectiveView: View {
     @State private var showAddRoom = false
     @State private var pendingInvitations: [Invitation] = []
     
+    private let invitationDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }()
+    
     var body: some View {
         NavigationView {
             Group {
@@ -45,7 +52,7 @@ struct CollectiveView: View {
                                     HStack {
                                         VStack(alignment: .leading) {
                                             Text(invitation.email)
-                                            Text("Invited \(invitation.dateCreated, style: .relative)")
+                                            Text("Invited: \(invitationDateFormatter.string(from: invitation.dateCreated))")
                                                 .font(.caption)
                                                 .foregroundColor(.secondary)
                                         }
@@ -58,6 +65,7 @@ struct CollectiveView: View {
                                             .cornerRadius(4)
                                     }
                                 }
+                                .onDelete(perform: cancelInvitation)
                             }
                         }
                         
@@ -132,8 +140,14 @@ struct CollectiveView: View {
                 CreateCollectiveView(collective: $selectedCollective, collectives: $collectives)
             }
             .sheet(isPresented: $showAddMember) {
-                if let collective = selectedCollective {
-                    AddMemberView(collective: .constant(collective))
+                if let index = collectives.firstIndex(where: { $0.id == selectedCollective?.id }) {
+                    AddMemberView(collective: Binding(
+                        get: { self.collectives[index] },
+                        set: { newValue in
+                            self.collectives[index] = newValue
+                            self.selectedCollective = newValue
+                        }
+                    ))
                 }
             }
             .sheet(isPresented: $showAddRoom) {
@@ -149,6 +163,15 @@ struct CollectiveView: View {
             collective.rooms.remove(atOffsets: offsets)
             selectedCollective = collective
             // TODO: Update in collectives array and persist
+        }
+    }
+    
+    private func cancelInvitation(at offsets: IndexSet) {
+        if let index = collectives.firstIndex(where: { $0.id == selectedCollective?.id }) {
+            var updatedCollective = collectives[index]
+            updatedCollective.pendingInvitations.remove(atOffsets: offsets)
+            collectives[index] = updatedCollective
+            selectedCollective = updatedCollective
         }
     }
 }

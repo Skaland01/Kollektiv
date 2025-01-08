@@ -57,10 +57,13 @@ struct AddMemberView: View {
             status: .pending,
             dateCreated: Date()
         )
-        collective.pendingInvitations.append(invitation)
-        invitationSent = true
         
-        // TODO: Send actual invitation email/notification
+        // Create a new copy of the collective with the updated invitations
+        var updatedCollective = collective
+        updatedCollective.pendingInvitations.append(invitation)
+        collective = updatedCollective
+        
+        invitationSent = true
     }
 }
 
