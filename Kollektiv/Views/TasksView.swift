@@ -4,14 +4,12 @@ struct TasksView: View {
     @State private var tasks: [Task] = Task.sampleTasks
     @State private var selectedFilter: TaskFilter = .myTasks
     @State private var selectedCategory: TaskCategory = .washing
-    @State private var selectedSortOption: TaskSortOption = .dueDate
-    @State private var sortAscending = true
     private let currentUserId = "currentUser"
     
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                // Header Section (will be static)
+                // Header Section
                 VStack(spacing: 8) {
                     // Title and Category Row
                     HStack {
@@ -76,35 +74,6 @@ struct TasksView: View {
                 }
                 .background(Color(.systemBackground))
                 
-                HStack {
-                    // Sort Menu
-                    Menu {
-                        ForEach(TaskSortOption.allCases, id: \.self) { option in
-                            Button(action: {
-                                if selectedSortOption == option {
-                                    sortAscending.toggle()
-                                } else {
-                                    selectedSortOption = option
-                                    sortAscending = true
-                                }
-                            }) {
-                                HStack {
-                                    Label(option.rawValue, systemImage: option.icon)
-                                    if option == selectedSortOption {
-                                        Image(systemName: sortAscending ? "chevron.up" : "chevron.down")
-                                    }
-                                }
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "arrow.up.arrow.down")
-                            .padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(10)
-                    }
-                }
-                .padding(.horizontal)
-                
                 // Task List
                 List {
                     if selectedFilter != .history {
@@ -132,42 +101,24 @@ struct TasksView: View {
     }
     
     private var filteredTasks: [Task] {
-        let categoryTasks = tasks.filter { $0.category == selectedCategory };
+        let categoryTasks = tasks.filter { $0.category == selectedCategory }
         
         let filtered: [Task]
         switch selectedFilter {
         case .myTasks:
-            filtered = categoryTasks.filter { !$0.isCompleted && $0.assignedTo == currentUserId }
+            filtered = categoryTasks.filter { $0.assignedTo == currentUserId && !$0.isCompleted }
         case .allTasks:
             filtered = categoryTasks.filter { !$0.isCompleted }
         case .history:
-            filtered = []
+            filtered = categoryTasks.filter { $0.isCompleted }
         }
         
-        return sortTasks(filtered)
+        return filtered
     }
     
     private var completedTasks: [Task] {
         let completed = tasks.filter { $0.isCompleted && $0.category == selectedCategory }
-        return sortTasks(completed)
-    }
-    
-    private func sortTasks(_ tasks: [Task]) -> [Task] {
-        return tasks.sorted { task1, task2 in
-            switch selectedSortOption {
-            case .dueDate:
-                return sortAscending ? task1.dueDate < task2.dueDate : task1.dueDate > task2.dueDate
-                
-            case .priority:
-                return sortAscending ? task1.priority < task2.priority : task1.priority > task2.priority
-                
-            case .name:
-                return sortAscending ? task1.title < task2.title : task1.title > task2.title
-                
-            case .dateCreated:
-                return sortAscending ? task1.dateCreated < task2.dateCreated : task1.dateCreated > task2.dateCreated
-            }
-        }
+        return completed
     }
     
     private func markTaskComplete(_ task: Task) {
