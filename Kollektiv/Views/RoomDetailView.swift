@@ -61,10 +61,20 @@ struct RoomDetailView: View {
                                 .tag(type)
                         }
                     }
+                    .onChange(of: editingType) { newValue in
+                        withAnimation {
+                            room.type = newValue
+                        }
+                    }
                     
                     Picker("Cleaning Period", selection: $editingPeriod) {
                         ForEach(CleaningPeriod.allCases, id: \.self) { period in
                             Text(period.rawValue).tag(period)
+                        }
+                    }
+                    .onChange(of: editingPeriod) { newValue in
+                        withAnimation {
+                            room.cleaningPeriod = newValue
                         }
                     }
                 } else {
@@ -82,15 +92,6 @@ struct RoomDetailView: View {
                             .foregroundColor(.secondary)
                     }
                     
-                    if !room.description.isEmpty {
-                        HStack {
-                            Label("Description", systemImage: "text.alignleft")
-                            Spacer()
-                            Text(room.description)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                    
                     if let lastCleaned = room.lastCleaned {
                         HStack {
                             Label("Last Cleaned", systemImage: "clock")
@@ -102,13 +103,30 @@ struct RoomDetailView: View {
                 }
             }
         }
-        .navigationTitle(room.name)
+        .navigationTitle(editingName)
+        .navigationBarTitleDisplayMode(.large)
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                VStack(alignment: .leading, spacing: 0) {
+                    if !editingDescription.isEmpty {
+                        Text(editingDescription)
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                            .lineLimit(1)
+                    }
+                }
+            }
+            
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(isEditing ? "Done" : "Edit") {
                     withAnimation {
                         if isEditing {
                             saveChanges()
+                        } else {
+                            editingName = room.name
+                            editingDescription = room.description
+                            editingType = room.type
+                            editingPeriod = room.cleaningPeriod
                         }
                         isEditing.toggle()
                     }
@@ -121,6 +139,11 @@ struct RoomDetailView: View {
                 }
             }
         }
+        .onChange(of: isEditing) { newValue in
+            if !newValue {
+                saveChanges()
+            }
+        }
         .sheet(isPresented: $showAddTask) {
             AddTaskView(tasks: $room.tasks)
         }
@@ -128,10 +151,12 @@ struct RoomDetailView: View {
     }
     
     private func saveChanges() {
-        room.name = editingName
-        room.description = editingDescription
-        room.type = editingType
-        room.cleaningPeriod = editingPeriod
+        withAnimation {
+            room.name = editingName
+            room.description = editingDescription
+            room.type = editingType
+            room.cleaningPeriod = editingPeriod
+        }
     }
     
     private func toggleTask(_ task: RoomTask) {

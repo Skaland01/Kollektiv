@@ -11,28 +11,24 @@ struct RoomListItem: View {
                 .foregroundColor(.accentColor)
                 .frame(width: 30)
             
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text(room.name)
                     .font(.headline)
                 
                 if !room.description.isEmpty {
                     Text(room.description)
-                        .font(.subheadline)
+                        .font(.caption)
                         .foregroundColor(.secondary)
                 }
                 
                 if let lastCleaned = room.lastCleaned {
                     Text("Last cleaned: \(lastCleaned, style: .date)")
-                        .font(.caption)
+                        .font(.caption2)
                         .foregroundColor(.secondary)
                 }
             }
             
             Spacer()
-            
-            Image(systemName: "chevron.right")
-                .font(.caption)
-                .foregroundColor(.secondary)
         }
         .padding(.vertical, 4)
     }
