@@ -19,6 +19,9 @@
 		F05C593F2D2EB22B001A137C /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C593E2D2EB22B001A137C /* AddMemberView.swift */; };
 		F05C59412D2EB3CC001A137C /* CreateCollectiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C59402D2EB3CC001A137C /* CreateCollectiveView.swift */; };
 		F05C59432D2EB646001A137C /* Invitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C59422D2EB646001A137C /* Invitation.swift */; };
+		F05C59462D2EC327001A137C /* JoinCollectiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C59442D2EC327001A137C /* JoinCollectiveView.swift */; };
+		F05C59472D2EC327001A137C /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C59452D2EC327001A137C /* WelcomeView.swift */; };
+		F05C59492D2EC58F001A137C /* CreateOrJoinCollectiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C59482D2EC58E001A137C /* CreateOrJoinCollectiveView.swift */; };
 		F06CB0762D2DB062008B3945 /* KollektivApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CB0752D2DB062008B3945 /* KollektivApp.swift */; };
 		F06CB0782D2DB062008B3945 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CB0772D2DB062008B3945 /* ContentView.swift */; };
 		F06CB07A2D2DB065008B3945 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F06CB0792D2DB065008B3945 /* Assets.xcassets */; };
@@ -66,6 +69,9 @@
 		F05C593E2D2EB22B001A137C /* AddMemberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMemberView.swift; sourceTree = "<group>"; };
 		F05C59402D2EB3CC001A137C /* CreateCollectiveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCollectiveView.swift; sourceTree = "<group>"; };
 		F05C59422D2EB646001A137C /* Invitation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Invitation.swift; sourceTree = "<group>"; };
+		F05C59442D2EC327001A137C /* JoinCollectiveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinCollectiveView.swift; sourceTree = "<group>"; };
+		F05C59452D2EC327001A137C /* WelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		F05C59482D2EC58E001A137C /* CreateOrJoinCollectiveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrJoinCollectiveView.swift; sourceTree = "<group>"; };
 		F06CB0722D2DB062008B3945 /* Kollektiv.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kollektiv.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F06CB0752D2DB062008B3945 /* KollektivApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KollektivApp.swift; sourceTree = "<group>"; };
 		F06CB0772D2DB062008B3945 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -172,6 +178,9 @@
 		F06CB09F2D2DB17F008B3945 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F05C59482D2EC58E001A137C /* CreateOrJoinCollectiveView.swift */,
+				F05C59442D2EC327001A137C /* JoinCollectiveView.swift */,
+				F05C59452D2EC327001A137C /* WelcomeView.swift */,
 				F05C59402D2EB3CC001A137C /* CreateCollectiveView.swift */,
 				F05C593E2D2EB22B001A137C /* AddMemberView.swift */,
 				F05C59352D2EAD3D001A137C /* AddRoomView.swift */,
@@ -337,6 +346,7 @@
 				F06CB0AC2D2DB17F008B3945 /* Task.swift in Sources */,
 				F06CB0A82D2DB17F008B3945 /* ProfileView.swift in Sources */,
 				F06CB0AA2D2DB17F008B3945 /* TasksView.swift in Sources */,
+				F05C59462D2EC327001A137C /* JoinCollectiveView.swift in Sources */,
 				F05C59412D2EB3CC001A137C /* CreateCollectiveView.swift in Sources */,
 				F06CB0A92D2DB17F008B3945 /* CollectiveView.swift in Sources */,
 				F05C593B2D2EAFEE001A137C /* RoomType.swift in Sources */,
@@ -351,10 +361,12 @@
 				F05C59332D2EAD30001A137C /* RoomTask.swift in Sources */,
 				F06CB0AB2D2DB17F008B3945 /* ShoppingItem.swift in Sources */,
 				F06CB0782D2DB062008B3945 /* ContentView.swift in Sources */,
+				F05C59472D2EC327001A137C /* WelcomeView.swift in Sources */,
 				F05C593C2D2EAFEE001A137C /* User.swift in Sources */,
 				F05C59372D2EAD3D001A137C /* AddRoomView.swift in Sources */,
 				F06CB0762D2DB062008B3945 /* KollektivApp.swift in Sources */,
 				F05C592D2D2EAABE001A137C /* Room.swift in Sources */,
+				F05C59492D2EC58F001A137C /* CreateOrJoinCollectiveView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

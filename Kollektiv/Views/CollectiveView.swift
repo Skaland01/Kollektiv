@@ -43,6 +43,28 @@ struct CollectiveView: View {
                             }
                         }
                         
+                        Section(header: Text("Invite Code")) {
+                            HStack {
+                                Text(collective.inviteCode)
+                                    .font(.system(.title2, design: .monospaced))
+                                    .foregroundColor(.primary)
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    UIPasteboard.general.string = collective.inviteCode
+                                }) {
+                                    Image(systemName: "doc.on.doc")
+                                        .foregroundColor(.accentColor)
+                                }
+                            }
+                            .padding(.vertical, 4)
+                            
+                            Text("Share this code with others to let them join your collective")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        
                         Section(header: Text("Pending Invitations")) {
                             if collective.pendingInvitations.isEmpty {
                                 Text("No pending invitations")
@@ -88,7 +110,11 @@ struct CollectiveView: View {
                         }
                     }
                 } else {
-                    WelcomeView(showCreateCollective: $showCreateCollective)
+                    WelcomeView(
+                        showCreateCollective: $showCreateCollective,
+                        collectives: $collectives,
+                        selectedCollective: $selectedCollective
+                    )
                 }
             }
             .navigationTitle(selectedCollective?.name ?? "Collective")
@@ -137,7 +163,10 @@ struct CollectiveView: View {
                 }
             }
             .sheet(isPresented: $showCreateCollective) {
-                CreateCollectiveView(collective: $selectedCollective, collectives: $collectives)
+                CreateOrJoinCollectiveView(
+                    collective: $selectedCollective,
+                    collectives: $collectives
+                )
             }
             .sheet(isPresented: $showAddMember) {
                 if let index = collectives.firstIndex(where: { $0.id == selectedCollective?.id }) {
@@ -172,33 +201,6 @@ struct CollectiveView: View {
             updatedCollective.pendingInvitations.remove(atOffsets: offsets)
             collectives[index] = updatedCollective
             selectedCollective = updatedCollective
-        }
-    }
-}
-
-struct WelcomeView: View {
-    @Binding var showCreateCollective: Bool
-    
-    var body: some View {
-        VStack(spacing: 20) {
-            Text("Welcome to Kollektiv!")
-                .font(.title)
-            
-            Text("Create or join a collective to get started")
-                .foregroundColor(.secondary)
-            
-            Button(action: {
-                showCreateCollective = true
-            }) {
-                Label("Create Collective", systemImage: "plus.circle.fill")
-                    .font(.headline)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.accentColor)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
-            .padding(.horizontal)
         }
     }
 }
