@@ -1,52 +1,154 @@
 import SwiftUI
 
 struct CollectiveView: View {
-    @State private var rooms: [Room] = []
+    @State private var collective: Collective?
+    @State private var showCreateCollective = false
+    @State private var showAddMember = false
     @State private var showAddRoom = false
-    @State private var showEditRoom: Room?
     
     var body: some View {
         NavigationView {
-            List {
-                Section(header: Text("Rooms")) {
-                    ForEach(rooms) { room in
-                        RoomListItem(room: room) {
-                            showEditRoom = room
+            Group {
+                if let collective = collective {
+                    CollectiveDetailView(collective: collective)
+                } else {
+                    VStack(spacing: 20) {
+                        Text("Welcome to Kollektiv!")
+                            .font(.title)
+                        
+                        Text("Create or join a collective to get started")
+                            .foregroundColor(.secondary)
+                        
+                        Button(action: {
+                            showCreateCollective = true
+                        }) {
+                            Label("Create Collective", systemImage: "plus.circle.fill")
+                                .font(.headline)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.accentColor)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
                         }
+                        .padding(.horizontal)
                     }
-                    .onDelete(perform: deleteRoom)
-                    
-                    Button(action: {
-                        showAddRoom = true
-                    }) {
-                        HStack {
-                            Image(systemName: "plus.circle.fill")
-                            Text("Add Room")
+                }
+            }
+            .navigationTitle("Collective")
+            .sheet(isPresented: $showCreateCollective) {
+                CreateCollectiveView(collective: $collective)
+            }
+        }
+    }
+}
+
+struct CollectiveDetailView: View {
+    @State var collective: Collective
+    @State private var showAddMember = false
+    @State private var showAddRoom = false
+    
+    var body: some View {
+        List {
+            Section(header: Text("Members")) {
+                ForEach(collective.members) { member in
+                    HStack {
+                        Text(member.username)
+                        Spacer()
+                        if member.id.uuidString == collective.createdBy {
+                            Text("Admin")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
                         }
                     }
                 }
                 
-                Section(header: Text("Members")) {
-                    Text("No members yet")
+                Button(action: {
+                    showAddMember = true
+                }) {
+                    HStack {
+                        Image(systemName: "person.badge.plus")
+                        Text("Add Member")
+                    }
+                }
+            }
+            
+            Section(header: Text("Rooms")) {
+                ForEach(collective.rooms) { room in
+                    RoomListItem(room: room) {
+                        // Navigate to room detail
+                    }
+                }
+                .onDelete(perform: deleteRoom)
+                
+                Button(action: {
+                    showAddRoom = true
+                }) {
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                        Text("Add Room")
+                    }
+                }
+            }
+        }
+        .sheet(isPresented: $showAddMember) {
+            AddMemberView(collective: $collective)
+        }
+        .sheet(isPresented: $showAddRoom) {
+            AddRoomView(rooms: $collective.rooms)
+        }
+    }
+    
+    private func deleteRoom(at offsets: IndexSet) {
+        collective.rooms.remove(atOffsets: offsets)
+    }
+}
+
+struct CreateCollectiveView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Binding var collective: Collective?
+    @State private var name = ""
+    @State private var description = ""
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section {
+                    TextField("Collective Name", text: $name)
+                    TextField("Description (optional)", text: $description)
+                }
+                
+                Section {
+                    Text("You'll be able to add members after creating the collective.")
+                        .font(.caption)
                         .foregroundColor(.secondary)
                 }
             }
-            .navigationTitle("Collective")
-            .sheet(isPresented: $showAddRoom) {
-                AddRoomView(rooms: $rooms)
-            }
+            .navigationTitle("Create Collective")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                Button(action: {
-                    // Add member action
-                }) {
-                    Image(systemName: "person.badge.plus")
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Create") {
+                        createCollective()
+                    }
+                    .disabled(name.isEmpty)
                 }
             }
         }
     }
     
-    private func deleteRoom(at offsets: IndexSet) {
-        rooms.remove(atOffsets: offsets)
+    private func createCollective() {
+        let newCollective = Collective(
+            name: name,
+            description: description,
+            createdBy: "currentUser" // Replace with actual user ID
+        )
+        collective = newCollective
+        dismiss()
     }
 }
 

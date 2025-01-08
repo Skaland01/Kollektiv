@@ -5,4 +5,4 @@ enum RoomType: String, CaseIterable {
     case bathroom = "Bathroom"
     case livingRoom = "Living Room"
     case custom = "Custom"
-} 
+}

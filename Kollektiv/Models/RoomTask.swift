@@ -5,8 +5,10 @@ struct RoomTask: Identifiable, Hashable {
     var name: String
     var isCompleted: Bool = false
     var lastCompletedDate: Date?
-    
-    // For common room types, we'll provide default tasks
+}
+
+// Move this to a separate file called RoomTaskDefaults.swift
+extension RoomTask {
     static func defaultTasks(for roomType: RoomType) -> [RoomTask] {
         switch roomType {
         case .kitchen:
@@ -36,11 +38,4 @@ struct RoomTask: Identifiable, Hashable {
             return []
         }
     }
-}
-
-enum RoomType: String, CaseIterable {
-    case kitchen = "Kitchen"
-    case bathroom = "Bathroom"
-    case livingRoom = "Living Room"
-    case custom = "Custom"
 } 

@@ -13,6 +13,10 @@
 		F05C59332D2EAD30001A137C /* RoomTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C59322D2EAD30001A137C /* RoomTask.swift */; };
 		F05C59362D2EAD3D001A137C /* RoomTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C59342D2EAD3D001A137C /* RoomTasksView.swift */; };
 		F05C59372D2EAD3D001A137C /* AddRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C59352D2EAD3D001A137C /* AddRoomView.swift */; };
+		F05C593B2D2EAFEE001A137C /* RoomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C59382D2EAFED001A137C /* RoomType.swift */; };
+		F05C593C2D2EAFEE001A137C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C59392D2EAFED001A137C /* User.swift */; };
+		F05C593D2D2EAFEE001A137C /* Collective.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C593A2D2EAFED001A137C /* Collective.swift */; };
+		F05C593F2D2EB22B001A137C /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C593E2D2EB22B001A137C /* AddMemberView.swift */; };
 		F06CB0762D2DB062008B3945 /* KollektivApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CB0752D2DB062008B3945 /* KollektivApp.swift */; };
 		F06CB0782D2DB062008B3945 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CB0772D2DB062008B3945 /* ContentView.swift */; };
 		F06CB07A2D2DB065008B3945 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F06CB0792D2DB065008B3945 /* Assets.xcassets */; };
@@ -54,6 +58,10 @@
 		F05C59322D2EAD30001A137C /* RoomTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomTask.swift; sourceTree = "<group>"; };
 		F05C59342D2EAD3D001A137C /* RoomTasksView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomTasksView.swift; sourceTree = "<group>"; };
 		F05C59352D2EAD3D001A137C /* AddRoomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRoomView.swift; sourceTree = "<group>"; };
+		F05C59382D2EAFED001A137C /* RoomType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomType.swift; sourceTree = "<group>"; };
+		F05C59392D2EAFED001A137C /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		F05C593A2D2EAFED001A137C /* Collective.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collective.swift; sourceTree = "<group>"; };
+		F05C593E2D2EB22B001A137C /* AddMemberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMemberView.swift; sourceTree = "<group>"; };
 		F06CB0722D2DB062008B3945 /* Kollektiv.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kollektiv.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F06CB0752D2DB062008B3945 /* KollektivApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KollektivApp.swift; sourceTree = "<group>"; };
 		F06CB0772D2DB062008B3945 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -160,6 +168,7 @@
 		F06CB09F2D2DB17F008B3945 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F05C593E2D2EB22B001A137C /* AddMemberView.swift */,
 				F05C59352D2EAD3D001A137C /* AddRoomView.swift */,
 				F05C59342D2EAD3D001A137C /* RoomTasksView.swift */,
 				F06CB0A02D2DB17F008B3945 /* ShoppingListView.swift */,
@@ -173,6 +182,9 @@
 		F06CB0A42D2DB17F008B3945 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F05C593A2D2EAFED001A137C /* Collective.swift */,
+				F05C59382D2EAFED001A137C /* RoomType.swift */,
+				F05C59392D2EAFED001A137C /* User.swift */,
 				F05C59322D2EAD30001A137C /* RoomTask.swift */,
 				F05C592F2D2EABEB001A137C /* RoomAssignment.swift */,
 				F05C592E2D2EABEB001A137C /* RoomAssignmentManager.swift */,
@@ -320,6 +332,9 @@
 				F06CB0A82D2DB17F008B3945 /* ProfileView.swift in Sources */,
 				F06CB0AA2D2DB17F008B3945 /* TasksView.swift in Sources */,
 				F06CB0A92D2DB17F008B3945 /* CollectiveView.swift in Sources */,
+				F05C593B2D2EAFEE001A137C /* RoomType.swift in Sources */,
+				F05C593F2D2EB22B001A137C /* AddMemberView.swift in Sources */,
+				F05C593D2D2EAFEE001A137C /* Collective.swift in Sources */,
 				F06CB0AE2D2DB367008B3945 /* TaskFilter.swift in Sources */,
 				F05C59312D2EABEB001A137C /* RoomAssignment.swift in Sources */,
 				F06CB0A72D2DB17F008B3945 /* ShoppingListView.swift in Sources */,
@@ -328,6 +343,7 @@
 				F05C59332D2EAD30001A137C /* RoomTask.swift in Sources */,
 				F06CB0AB2D2DB17F008B3945 /* ShoppingItem.swift in Sources */,
 				F06CB0782D2DB062008B3945 /* ContentView.swift in Sources */,
+				F05C593C2D2EAFEE001A137C /* User.swift in Sources */,
 				F05C59372D2EAD3D001A137C /* AddRoomView.swift in Sources */,
 				F06CB0762D2DB062008B3945 /* KollektivApp.swift in Sources */,
 				F05C592D2D2EAABE001A137C /* Room.swift in Sources */,
