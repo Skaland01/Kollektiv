@@ -11,10 +11,9 @@ struct AddRoomView: View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Room name", text: $name)
+                    TextField("Room Name", text: $name)
                     TextField("Description (optional)", text: $description)
-                    
-                    Picker("Room Type", selection: $selectedType) {
+                    Picker("Type", selection: $selectedType) {
                         ForEach(RoomType.allCases, id: \.self) { type in
                             Text(type.rawValue).tag(type)
                         }
@@ -40,7 +39,11 @@ struct AddRoomView: View {
     }
     
     private func addRoom() {
-        let room = Room(name: name, description: description, type: selectedType)
+        let room = Room(
+            name: name,
+            description: description,
+            type: selectedType
+        )
         rooms.append(room)
         dismiss()
     }

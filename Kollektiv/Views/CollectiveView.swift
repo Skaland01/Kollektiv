@@ -180,8 +180,16 @@ struct CollectiveView: View {
                 }
             }
             .sheet(isPresented: $showAddRoom) {
-                if let collective = selectedCollective {
-                    AddRoomView(rooms: .constant(collective.rooms))
+                if let index = collectives.firstIndex(where: { $0.id == selectedCollective?.id }) {
+                    AddRoomView(rooms: Binding(
+                        get: { self.collectives[index].rooms },
+                        set: { newRooms in
+                            var updatedCollective = self.collectives[index]
+                            updatedCollective.rooms = newRooms
+                            self.collectives[index] = updatedCollective
+                            self.selectedCollective = updatedCollective
+                        }
+                    ))
                 }
             }
         }
