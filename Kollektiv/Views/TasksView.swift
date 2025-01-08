@@ -11,60 +11,70 @@ struct TasksView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                // Custom Title
-                Text("Tasks")
-                    .font(.system(size: 34, weight: .bold, design: .rounded))
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical)
-                    .background(Color(.systemBackground))
-                
-                // Category Dropdown Menu
-                Menu {
-                    ForEach(TaskCategory.allCases, id: \.self) { category in
-                        Button(action: {
-                            selectedCategory = category
-                        }) {
-                            HStack {
-                                Label(category.rawValue, systemImage: category.icon)
-                                if category == selectedCategory {
-                                    Image(systemName: "checkmark")
+                // Header Section (will be static)
+                VStack(spacing: 8) {
+                    // Title and Category Row
+                    HStack {
+                        Text("Tasks")
+                            .font(.system(size: 28, weight: .bold, design: .rounded))
+                        
+                        Spacer()
+                        
+                        // Category Dropdown Menu
+                        Menu {
+                            ForEach(TaskCategory.allCases, id: \.self) { category in
+                                Button(action: {
+                                    selectedCategory = category
+                                }) {
+                                    HStack {
+                                        Label(category.rawValue, systemImage: category.icon)
+                                        if category == selectedCategory {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
                                 }
                             }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Image(systemName: selectedCategory.icon)
+                                Image(systemName: "chevron.down")
+                                    .font(.caption2)
+                            }
+                            .padding(8)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
                         }
                     }
-                } label: {
-                    HStack {
-                        Label(selectedCategory.rawValue, systemImage: selectedCategory.icon)
-                            .font(.headline)
-                        Image(systemName: "chevron.down")
-                            .font(.caption)
-                    }
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
                     .padding(.horizontal)
-                }
-                
-                // Custom Filter Tabs
-                HStack(spacing: 32) {
-                    FilterButton(title: "My Tasks", 
-                               isSelected: selectedFilter == .myTasks) {
-                        selectedFilter = .myTasks
-                    }
+                    .padding(.vertical, 8)
                     
-                    FilterButton(title: "All Tasks", 
-                               isSelected: selectedFilter == .allTasks) {
-                        selectedFilter = .allTasks
+                    // Custom Filter Tabs
+                    HStack(spacing: 36) {
+                        FilterButton(title: "My Tasks", 
+                                   isSelected: selectedFilter == .myTasks) {
+                            selectedFilter = .myTasks
+                        }
+                        
+                        FilterButton(title: "All Tasks", 
+                                   isSelected: selectedFilter == .allTasks) {
+                            selectedFilter = .allTasks
+                        }
+                        
+                        FilterButton(title: "History", 
+                                   isSelected: selectedFilter == .history) {
+                            selectedFilter = .history
+                        }
                     }
+                    .padding(.vertical, 8)
+                    .padding(.horizontal)
                     
-                    FilterButton(title: "History", 
-                               isSelected: selectedFilter == .history) {
-                        selectedFilter = .history
-                    }
+                    // Separator
+                    Rectangle()
+                        .fill(Color(.systemGray5))
+                        .frame(height: 1)
+                        .padding(.horizontal)
                 }
-                .padding(.vertical, 16)
-                .padding(.horizontal)
+                .background(Color(.systemBackground))
                 
                 HStack {
                     // Sort Menu
@@ -236,9 +246,9 @@ struct FilterButton: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: 16, weight: .medium, design: .rounded))
+                .font(.system(size: 15, weight: .medium, design: .rounded))
                 .foregroundColor(isSelected ? .accentColor : .gray.opacity(0.6))
-                .padding(.vertical, 8)
+                .padding(.vertical, 6)
         }
         .animation(.easeInOut, value: isSelected)
     }
