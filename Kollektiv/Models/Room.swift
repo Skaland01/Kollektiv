@@ -8,6 +8,10 @@ struct Room: Identifiable, Hashable {
     var tasks: [RoomTask]
     var cleaningPeriod: CleaningPeriod
     var lastCleaned: Date?
+    var lastCleanedBy: String?
+    var isCurrentlyCleaned: Bool {
+        tasks.allSatisfy { $0.isCompleted }
+    }
     
     init(name: String, description: String = "", type: RoomType = .custom) {
         self.id = UUID()
@@ -24,5 +28,19 @@ struct Room: Identifiable, Hashable {
     
     static func == (lhs: Room, rhs: Room) -> Bool {
         lhs.id == rhs.id
+    }
+    
+    mutating func markAsCleaned(by userId: String) {
+        lastCleaned = Date()
+        lastCleanedBy = userId
+    }
+    
+    mutating func resetTasks() {
+        tasks = tasks.map { task in
+            var updatedTask = task
+            updatedTask.isCompleted = false
+            updatedTask.lastCompletedDate = nil
+            return updatedTask
+        }
     }
 }

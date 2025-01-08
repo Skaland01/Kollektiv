@@ -13,6 +13,7 @@ struct CollectiveNotification: Identifiable {
         case memberJoined
         case invitationAccepted
         case roomAdded
+        case roomCleaned
         
         var icon: String {
             switch self {
@@ -20,6 +21,7 @@ struct CollectiveNotification: Identifiable {
             case .memberJoined: return "person.fill.badge.plus"
             case .invitationAccepted: return "checkmark.circle.fill"
             case .roomAdded: return "house.fill"
+            case .roomCleaned: return "sparkles"
             }
         }
     }
