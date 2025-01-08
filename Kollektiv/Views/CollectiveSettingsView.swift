@@ -8,6 +8,7 @@ struct CollectiveSettingsView: View {
     @State private var name: String
     @State private var description: String
     @State private var showConfirmDelete = false
+    @State private var showConfirmLeave = false
     
     init(collective: Binding<Collective>, collectives: Binding<[Collective]>, selectedCollective: Binding<Collective?>) {
         self._collective = collective
@@ -79,6 +80,13 @@ struct CollectiveSettingsView: View {
                         }
                         .foregroundColor(.red)
                     }
+                } else {
+                    Section {
+                        Button("Leave Collective") {
+                            showConfirmLeave = true
+                        }
+                        .foregroundColor(.red)
+                    }
                 }
             }
             .listStyle(.insetGrouped)
@@ -106,6 +114,14 @@ struct CollectiveSettingsView: View {
             } message: {
                 Text("Are you sure you want to delete this collective? This action cannot be undone.")
             }
+            .alert("Leave Collective", isPresented: $showConfirmLeave) {
+                Button("Cancel", role: .cancel) { }
+                Button("Leave", role: .destructive) {
+                    leaveCollective()
+                }
+            } message: {
+                Text("Are you sure you want to leave this collective? You'll need a new invitation to rejoin.")
+            }
         }
     }
     
@@ -118,6 +134,16 @@ struct CollectiveSettingsView: View {
     private func deleteCollective() {
         if let index = collectives.firstIndex(where: { $0.id == collective.id }) {
             collectives.remove(at: index)
+            selectedCollective = nil
+        }
+        dismiss()
+    }
+    
+    private func leaveCollective() {
+        if let index = collectives.firstIndex(where: { $0.id == collective.id }) {
+            var updatedCollective = collective
+            updatedCollective.members.removeAll { $0.id.uuidString == "currentUser" }
+            collectives[index] = updatedCollective
             selectedCollective = nil
         }
         dismiss()

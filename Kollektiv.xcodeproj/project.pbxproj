@@ -47,6 +47,8 @@
 		F06CB0AC2D2DB17F008B3945 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CB0A62D2DB17F008B3945 /* Task.swift */; };
 		F06CB0AE2D2DB367008B3945 /* TaskFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CB0AD2D2DB367008B3945 /* TaskFilter.swift */; };
 		F06CB0B02D2DB428008B3945 /* TaskCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06CB0AF2D2DB428008B3945 /* TaskCategory.swift */; };
+		F07816292D2F14A5006B4AAA /* CollectiveNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07816282D2F14A5006B4AAA /* CollectiveNotification.swift */; };
+		F078162B2D2F1508006B4AAA /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F078162A2D2F1508006B4AAA /* NotificationsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +112,8 @@
 		F06CB0A62D2DB17F008B3945 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		F06CB0AD2D2DB367008B3945 /* TaskFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskFilter.swift; sourceTree = "<group>"; };
 		F06CB0AF2D2DB428008B3945 /* TaskCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskCategory.swift; sourceTree = "<group>"; };
+		F07816282D2F14A5006B4AAA /* CollectiveNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectiveNotification.swift; sourceTree = "<group>"; };
+		F078162A2D2F1508006B4AAA /* NotificationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +202,7 @@
 		F06CB09F2D2DB17F008B3945 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F078162A2D2F1508006B4AAA /* NotificationsView.swift */,
 				F011650F2D2EDB050037A2B4 /* CollectiveSettingsView.swift */,
 				F011650B2D2ED6280037A2B4 /* TaskRow.swift */,
 				F01165072D2ED4520037A2B4 /* EditTaskView.swift */,
@@ -223,6 +228,7 @@
 		F06CB0A42D2DB17F008B3945 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F07816282D2F14A5006B4AAA /* CollectiveNotification.swift */,
 				F011650D2D2ED8660037A2B4 /* TaskSortOption.swift */,
 				F01165092D2ED61F0037A2B4 /* RoomTaskDefaults.swift */,
 				F01165032D2ED2500037A2B4 /* CleaningPeriod.swift */,
@@ -376,6 +382,7 @@
 				F06CB0AC2D2DB17F008B3945 /* Task.swift in Sources */,
 				F06CB0A82D2DB17F008B3945 /* ProfileView.swift in Sources */,
 				F06CB0AA2D2DB17F008B3945 /* TasksView.swift in Sources */,
+				F07816292D2F14A5006B4AAA /* CollectiveNotification.swift in Sources */,
 				F05C59462D2EC327001A137C /* JoinCollectiveView.swift in Sources */,
 				F05C59412D2EB3CC001A137C /* CreateCollectiveView.swift in Sources */,
 				F06CB0A92D2DB17F008B3945 /* CollectiveView.swift in Sources */,
@@ -395,6 +402,7 @@
 				F06CB0AB2D2DB17F008B3945 /* ShoppingItem.swift in Sources */,
 				F01165082D2ED4520037A2B4 /* EditTaskView.swift in Sources */,
 				F01164FF2D2ECF720037A2B4 /* RoomDetailView.swift in Sources */,
+				F078162B2D2F1508006B4AAA /* NotificationsView.swift in Sources */,
 				F01165062D2ED3C00037A2B4 /* AddTaskView.swift in Sources */,
 				F06CB0782D2DB062008B3945 /* ContentView.swift in Sources */,
 				F05C59472D2EC327001A137C /* WelcomeView.swift in Sources */,

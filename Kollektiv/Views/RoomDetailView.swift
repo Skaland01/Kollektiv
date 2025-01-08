@@ -3,9 +3,20 @@ import SwiftUI
 struct RoomDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var room: Room
-    @State private var showEditRoom = false
+    @State private var isEditing = false
     @State private var showAddTask = false
-    @State private var selectedTask: RoomTask?
+    @State private var editingName: String
+    @State private var editingDescription: String
+    @State private var editingType: RoomType
+    @State private var editingPeriod: CleaningPeriod
+    
+    init(room: Binding<Room>) {
+        self._room = room
+        self._editingName = State(initialValue: room.wrappedValue.name)
+        self._editingDescription = State(initialValue: room.wrappedValue.description)
+        self._editingType = State(initialValue: room.wrappedValue.type)
+        self._editingPeriod = State(initialValue: room.wrappedValue.cleaningPeriod)
+    }
     
     var body: some View {
         List {
@@ -19,9 +30,16 @@ struct RoomDetailView: View {
                             }
                         },
                         onTap: {
-                            selectedTask = task
+                            if isEditing {
+                                // Show inline task editing
+                            }
                         }
                     )
+                }
+                .onMove { from, to in
+                    var updatedTasks = room.tasks
+                    updatedTasks.move(fromOffsets: from, toOffset: to)
+                    room.tasks = updatedTasks
                 }
                 .onDelete(perform: deleteTask)
                 
@@ -33,35 +51,53 @@ struct RoomDetailView: View {
             }
             
             Section("Settings") {
-                HStack {
-                    Label("Room Type", systemImage: room.type.iconName)
-                    Spacer()
-                    Text(room.type.rawValue)
-                        .foregroundColor(.secondary)
-                }
-                
-                HStack {
-                    Label("Cleaning Period", systemImage: "calendar")
-                    Spacer()
-                    Text(room.cleaningPeriod.rawValue)
-                        .foregroundColor(.secondary)
-                }
-                
-                if !room.description.isEmpty {
+                if isEditing {
+                    TextField("Room Name", text: $editingName)
+                    TextField("Description", text: $editingDescription)
+                    
+                    Picker("Room Type", selection: $editingType) {
+                        ForEach(RoomType.allCases, id: \.self) { type in
+                            Label(type.rawValue, systemImage: type.iconName)
+                                .tag(type)
+                        }
+                    }
+                    
+                    Picker("Cleaning Period", selection: $editingPeriod) {
+                        ForEach(CleaningPeriod.allCases, id: \.self) { period in
+                            Text(period.rawValue).tag(period)
+                        }
+                    }
+                } else {
                     HStack {
-                        Label("Description", systemImage: "text.alignleft")
+                        Label("Room Type", systemImage: room.type.iconName)
                         Spacer()
-                        Text(room.description)
+                        Text(room.type.rawValue)
                             .foregroundColor(.secondary)
                     }
-                }
-                
-                if let lastCleaned = room.lastCleaned {
+                    
                     HStack {
-                        Label("Last Cleaned", systemImage: "clock")
+                        Label("Cleaning Period", systemImage: "calendar")
                         Spacer()
-                        Text(lastCleaned, style: .date)
+                        Text(room.cleaningPeriod.rawValue)
                             .foregroundColor(.secondary)
+                    }
+                    
+                    if !room.description.isEmpty {
+                        HStack {
+                            Label("Description", systemImage: "text.alignleft")
+                            Spacer()
+                            Text(room.description)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    
+                    if let lastCleaned = room.lastCleaned {
+                        HStack {
+                            Label("Last Cleaned", systemImage: "clock")
+                            Spacer()
+                            Text(lastCleaned, style: .date)
+                                .foregroundColor(.secondary)
+                        }
                     }
                 }
             }
@@ -69,36 +105,33 @@ struct RoomDetailView: View {
         .navigationTitle(room.name)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Edit") {
-                    showEditRoom = true
+                Button(isEditing ? "Done" : "Edit") {
+                    withAnimation {
+                        if isEditing {
+                            saveChanges()
+                        }
+                        isEditing.toggle()
+                    }
+                }
+            }
+            
+            if isEditing {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    EditButton()
                 }
             }
         }
-        .sheet(isPresented: $showEditRoom) {
-            EditRoomView(room: $room)
-        }
         .sheet(isPresented: $showAddTask) {
-            AddTaskView(tasks: Binding(
-                get: { room.tasks },
-                set: { room.tasks = $0 }
-            ))
+            AddTaskView(tasks: $room.tasks)
         }
-        .sheet(isPresented: Binding(
-            get: { selectedTask != nil },
-            set: { if !$0 { selectedTask = nil } }
-        )) {
-            if let index = room.tasks.firstIndex(where: { $0.id == selectedTask?.id }) {
-                EditTaskView(task: Binding(
-                    get: { room.tasks[index] },
-                    set: { updatedTask in
-                        var updatedTasks = room.tasks
-                        updatedTasks[index] = updatedTask
-                        room.tasks = updatedTasks
-                        selectedTask = nil
-                    }
-                ))
-            }
-        }
+        .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
+    }
+    
+    private func saveChanges() {
+        room.name = editingName
+        room.description = editingDescription
+        room.type = editingType
+        room.cleaningPeriod = editingPeriod
     }
     
     private func toggleTask(_ task: RoomTask) {
