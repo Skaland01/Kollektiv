@@ -7,6 +7,7 @@ struct CollectiveView: View {
     @State private var showAddMember = false
     @State private var showAddRoom = false
     @State private var pendingInvitations: [Invitation] = []
+    @State private var showSettings = false
     
     private let invitationDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -168,10 +169,18 @@ struct CollectiveView: View {
                 
                 if selectedCollective != nil {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            showAddMember = true
-                        }) {
-                            Image(systemName: "person.badge.plus")
+                        HStack {
+                            Button(action: {
+                                showAddMember = true
+                            }) {
+                                Image(systemName: "person.badge.plus")
+                            }
+                            
+                            Button(action: {
+                                showSettings = true
+                            }) {
+                                Image(systemName: "gear")
+                            }
                         }
                     }
                 }
@@ -202,6 +211,17 @@ struct CollectiveView: View {
                             updatedCollective.rooms = newRooms
                             self.collectives[index] = updatedCollective
                             self.selectedCollective = updatedCollective
+                        }
+                    ))
+                }
+            }
+            .sheet(isPresented: $showSettings) {
+                if let index = collectives.firstIndex(where: { $0.id == selectedCollective?.id }) {
+                    CollectiveSettingsView(collective: Binding(
+                        get: { self.collectives[index] },
+                        set: { newValue in
+                            self.collectives[index] = newValue
+                            self.selectedCollective = newValue
                         }
                     ))
                 }

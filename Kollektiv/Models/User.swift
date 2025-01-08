@@ -1,15 +1,20 @@
 import Foundation
 
-struct User: Identifiable, Hashable {
-    let id = UUID()
+struct User: Identifiable {
+    let id: UUID
     var username: String
     var email: String
+    var role: UserRole
     
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+    enum UserRole: String {
+        case admin = "Admin"
+        case member = "Member"
     }
     
-    static func == (lhs: User, rhs: User) -> Bool {
-        lhs.id == rhs.id
+    init(id: UUID = UUID(), username: String, email: String, role: UserRole = .member) {
+        self.id = id
+        self.username = username
+        self.email = email
+        self.role = role
     }
 } 

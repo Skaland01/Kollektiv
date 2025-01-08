@@ -16,6 +16,7 @@
 		F011650A2D2ED61F0037A2B4 /* RoomTaskDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01165092D2ED61F0037A2B4 /* RoomTaskDefaults.swift */; };
 		F011650C2D2ED6280037A2B4 /* TaskRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F011650B2D2ED6280037A2B4 /* TaskRow.swift */; };
 		F011650E2D2ED8660037A2B4 /* TaskSortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = F011650D2D2ED8660037A2B4 /* TaskSortOption.swift */; };
+		F01165102D2EDB050037A2B4 /* CollectiveSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F011650F2D2EDB050037A2B4 /* CollectiveSettingsView.swift */; };
 		F05C592D2D2EAABE001A137C /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C592C2D2EAABE001A137C /* Room.swift */; };
 		F05C59302D2EABEB001A137C /* RoomAssignmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C592E2D2EABEB001A137C /* RoomAssignmentManager.swift */; };
 		F05C59312D2EABEB001A137C /* RoomAssignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C592F2D2EABEB001A137C /* RoomAssignment.swift */; };
@@ -75,6 +76,7 @@
 		F01165092D2ED61F0037A2B4 /* RoomTaskDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomTaskDefaults.swift; sourceTree = "<group>"; };
 		F011650B2D2ED6280037A2B4 /* TaskRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskRow.swift; sourceTree = "<group>"; };
 		F011650D2D2ED8660037A2B4 /* TaskSortOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSortOption.swift; sourceTree = "<group>"; };
+		F011650F2D2EDB050037A2B4 /* CollectiveSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectiveSettingsView.swift; sourceTree = "<group>"; };
 		F05C592C2D2EAABE001A137C /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		F05C592E2D2EABEB001A137C /* RoomAssignmentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomAssignmentManager.swift; sourceTree = "<group>"; };
 		F05C592F2D2EABEB001A137C /* RoomAssignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomAssignment.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 		F06CB09F2D2DB17F008B3945 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F011650F2D2EDB050037A2B4 /* CollectiveSettingsView.swift */,
 				F011650B2D2ED6280037A2B4 /* TaskRow.swift */,
 				F01165072D2ED4520037A2B4 /* EditTaskView.swift */,
 				F01165052D2ED3C00037A2B4 /* AddTaskView.swift */,
@@ -379,6 +382,7 @@
 				F05C593B2D2EAFEE001A137C /* RoomType.swift in Sources */,
 				F05C593F2D2EB22B001A137C /* AddMemberView.swift in Sources */,
 				F05C59432D2EB646001A137C /* Invitation.swift in Sources */,
+				F01165102D2EDB050037A2B4 /* CollectiveSettingsView.swift in Sources */,
 				F05C593D2D2EAFEE001A137C /* Collective.swift in Sources */,
 				F01165022D2ED2450037A2B4 /* EditRoomView.swift in Sources */,
 				F01165042D2ED2500037A2B4 /* CleaningPeriod.swift in Sources */,
