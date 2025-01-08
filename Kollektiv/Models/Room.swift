@@ -1,13 +1,24 @@
 import Foundation
 
 struct Room: Identifiable, Hashable {
-    let id = UUID()
+    let id: UUID
     var name: String
-    var description: String = ""
-    var assignedMembers: [String] = []  // User IDs of assigned members
+    var description: String
+    var type: RoomType
+    var tasks: [RoomTask]
+    var assignedMembers: [String]
     var lastCleaned: Date?
+    var currentAssignment: RoomAssignment?
     
-    // For Hashable conformance
+    init(name: String, description: String = "", type: RoomType = .custom) {
+        self.id = UUID()
+        self.name = name
+        self.description = description
+        self.type = type
+        self.tasks = RoomTask.defaultTasks(for: type)
+        self.assignedMembers = []
+    }
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
