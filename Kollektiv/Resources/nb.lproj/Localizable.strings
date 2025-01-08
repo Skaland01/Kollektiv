@@ -1,0 +1,28 @@
+// Common
+"Settings" = "Innstillinger";
+"Cancel" = "Avbryt";
+"Done" = "Ferdig";
+"Save" = "Lagre";
+
+// Tabs
+"Tasks" = "Oppgaver";
+"Shopping" = "Handling";
+"Collective" = "Kollektiv";
+"Profile" = "Profil";
+
+// Settings
+"Appearance" = "Utseende";
+"Dark Mode" = "Mørk Modus";
+"Notifications" = "Varsler";
+"Enable Notifications" = "Aktiver Varsler";
+"Language" = "Språk";
+"App" = "App";
+"About" = "Om";
+"Terms of Service" = "Brukervilkår";
+"Privacy Policy" = "Personvern";
+"Reset All Settings" = "Nullstill Alle Innstillinger";
+
+// Profile
+"Edit Profile" = "Rediger Profil";
+"Help & Support" = "Hjelp & Støtte";
+"Log Out" = "Logg Ut"; 

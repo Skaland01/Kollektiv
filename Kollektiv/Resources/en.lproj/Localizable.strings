@@ -1,0 +1,28 @@
+// Common
+"Settings" = "Settings";
+"Cancel" = "Cancel";
+"Done" = "Done";
+"Save" = "Save";
+
+// Tabs
+"Tasks" = "Tasks";
+"Shopping" = "Shopping";
+"Collective" = "Collective";
+"Profile" = "Profile";
+
+// Settings
+"Appearance" = "Appearance";
+"Dark Mode" = "Dark Mode";
+"Notifications" = "Notifications";
+"Enable Notifications" = "Enable Notifications";
+"Language" = "Language";
+"App" = "App";
+"About" = "About";
+"Terms of Service" = "Terms of Service";
+"Privacy Policy" = "Privacy Policy";
+"Reset All Settings" = "Reset All Settings";
+
+// Profile
+"Edit Profile" = "Edit Profile";
+"Help & Support" = "Help & Support";
+"Log Out" = "Log Out"; 

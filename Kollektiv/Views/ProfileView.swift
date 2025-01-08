@@ -7,6 +7,8 @@ struct ProfileView: View {
     @State private var notificationsEnabled = true
     @State private var darkModeEnabled = false
     @State private var showLogoutAlert = false
+    @State private var showSettings = false
+    @AppStorage("selectedAvatar") private var selectedAvatar = Avatar.defaultAvatar.rawValue
     
     var body: some View {
         NavigationView {
@@ -14,9 +16,34 @@ struct ProfileView: View {
                 // Profile Section
                 Section {
                     HStack(spacing: 16) {
-                        Image(systemName: "person.circle.fill")
-                            .font(.system(size: 60))
-                            .foregroundColor(.accentColor)
+                        Menu {
+                            ForEach(Avatar.allCases) { avatar in
+                                Button {
+                                    selectedAvatar = avatar.rawValue
+                                } label: {
+                                    HStack {
+                                        avatar.image
+                                            .foregroundColor(.accentColor)
+                                        Text(avatar.displayName)
+                                        if selectedAvatar == avatar.rawValue {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            Avatar(rawValue: selectedAvatar)?.image
+                                .font(.system(size: 60))
+                                .foregroundColor(.accentColor)
+                                .overlay(
+                                    Image(systemName: "pencil.circle.fill")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.accentColor)
+                                        .background(Color(.systemBackground))
+                                        .clipShape(Circle())
+                                        .offset(x: 20, y: 20)
+                                )
+                        }
                         
                         VStack(alignment: .leading, spacing: 4) {
                             Text(username)
@@ -77,6 +104,15 @@ struct ProfileView: View {
                 }
             }
             .navigationTitle("Profile")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Image(systemName: "gear")
+                    }
+                }
+            }
             .sheet(isPresented: $showEditProfile) {
                 EditProfileView(username: $username, email: $email)
             }
@@ -87,6 +123,9 @@ struct ProfileView: View {
                 }
             } message: {
                 Text("Are you sure you want to log out?")
+            }
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
             }
         }
     }
@@ -99,6 +138,8 @@ struct EditProfileView: View {
     @Binding var email: String
     @State private var editingUsername: String
     @State private var editingEmail: String
+    @AppStorage("selectedAvatar") private var selectedAvatar = Avatar.defaultAvatar.rawValue
+    @State private var showAvatarPicker = false
     
     init(username: Binding<String>, email: Binding<String>) {
         self._username = username
@@ -110,6 +151,22 @@ struct EditProfileView: View {
     var body: some View {
         NavigationView {
             Form {
+                Section("Profile Picture") {
+                    Button {
+                        showAvatarPicker = true
+                    } label: {
+                        HStack {
+                            Avatar(rawValue: selectedAvatar)?.image
+                                .font(.title)
+                                .foregroundColor(.accentColor)
+                            Text("Change Avatar")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+                
                 Section("Profile Information") {
                     TextField("Username", text: $editingUsername)
                     TextField("Email", text: $editingEmail)
@@ -129,6 +186,59 @@ struct EditProfileView: View {
                     Button("Save") {
                         username = editingUsername
                         email = editingEmail
+                        dismiss()
+                    }
+                }
+            }
+            .sheet(isPresented: $showAvatarPicker) {
+                AvatarPickerView(selectedAvatar: $selectedAvatar)
+            }
+        }
+    }
+}
+
+// New AvatarPickerView
+struct AvatarPickerView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Binding var selectedAvatar: String
+    
+    let columns = [
+        GridItem(.adaptive(minimum: 80))
+    ]
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 20) {
+                    ForEach(Avatar.allCases) { avatar in
+                        Button {
+                            selectedAvatar = avatar.rawValue
+                            dismiss()
+                        } label: {
+                            VStack {
+                                avatar.image
+                                    .font(.system(size: 50))
+                                    .foregroundColor(selectedAvatar == avatar.rawValue ? .accentColor : .gray)
+                                
+                                Text(avatar.displayName)
+                                    .font(.caption)
+                                    .foregroundColor(.primary)
+                            }
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(selectedAvatar == avatar.rawValue ? Color.accentColor : Color.clear, lineWidth: 2)
+                            )
+                        }
+                    }
+                }
+                .padding()
+            }
+            .navigationTitle("Choose Avatar")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
                         dismiss()
                     }
                 }

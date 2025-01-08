@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("isDarkMode") private var isDarkMode = false
+    @AppStorage("language") private var selectedLanguage = Language.english.rawValue
+    
     var body: some View {
         TabView {
             TasksView()
@@ -30,6 +33,8 @@ struct ContentView: View {
                     Label("Profile", systemImage: "person.circle")
                 }
         }
+        .preferredColorScheme(isDarkMode ? .dark : .light)
+        .environment(\.locale, .init(identifier: selectedLanguage))
     }
 }
 
