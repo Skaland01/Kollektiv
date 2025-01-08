@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F01164FF2D2ECF720037A2B4 /* RoomDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01164FD2D2ECF720037A2B4 /* RoomDetailView.swift */; };
+		F01165002D2ECF720037A2B4 /* RoomListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01164FE2D2ECF720037A2B4 /* RoomListItem.swift */; };
+		F01165022D2ED2450037A2B4 /* EditRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01165012D2ED2450037A2B4 /* EditRoomView.swift */; };
+		F01165042D2ED2500037A2B4 /* CleaningPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01165032D2ED2500037A2B4 /* CleaningPeriod.swift */; };
+		F01165062D2ED3C00037A2B4 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01165052D2ED3C00037A2B4 /* AddTaskView.swift */; };
+		F01165082D2ED4520037A2B4 /* EditTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01165072D2ED4520037A2B4 /* EditTaskView.swift */; };
+		F011650A2D2ED61F0037A2B4 /* RoomTaskDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01165092D2ED61F0037A2B4 /* RoomTaskDefaults.swift */; };
+		F011650C2D2ED6280037A2B4 /* TaskRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F011650B2D2ED6280037A2B4 /* TaskRow.swift */; };
 		F05C592D2D2EAABE001A137C /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C592C2D2EAABE001A137C /* Room.swift */; };
 		F05C59302D2EABEB001A137C /* RoomAssignmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C592E2D2EABEB001A137C /* RoomAssignmentManager.swift */; };
 		F05C59312D2EABEB001A137C /* RoomAssignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C592F2D2EABEB001A137C /* RoomAssignment.swift */; };
@@ -57,6 +65,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F01164FD2D2ECF720037A2B4 /* RoomDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomDetailView.swift; sourceTree = "<group>"; };
+		F01164FE2D2ECF720037A2B4 /* RoomListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomListItem.swift; sourceTree = "<group>"; };
+		F01165012D2ED2450037A2B4 /* EditRoomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditRoomView.swift; sourceTree = "<group>"; };
+		F01165032D2ED2500037A2B4 /* CleaningPeriod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CleaningPeriod.swift; sourceTree = "<group>"; };
+		F01165052D2ED3C00037A2B4 /* AddTaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
+		F01165072D2ED4520037A2B4 /* EditTaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTaskView.swift; sourceTree = "<group>"; };
+		F01165092D2ED61F0037A2B4 /* RoomTaskDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomTaskDefaults.swift; sourceTree = "<group>"; };
+		F011650B2D2ED6280037A2B4 /* TaskRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskRow.swift; sourceTree = "<group>"; };
 		F05C592C2D2EAABE001A137C /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		F05C592E2D2EABEB001A137C /* RoomAssignmentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomAssignmentManager.swift; sourceTree = "<group>"; };
 		F05C592F2D2EABEB001A137C /* RoomAssignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomAssignment.swift; sourceTree = "<group>"; };
@@ -178,6 +194,12 @@
 		F06CB09F2D2DB17F008B3945 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F011650B2D2ED6280037A2B4 /* TaskRow.swift */,
+				F01165072D2ED4520037A2B4 /* EditTaskView.swift */,
+				F01165052D2ED3C00037A2B4 /* AddTaskView.swift */,
+				F01165012D2ED2450037A2B4 /* EditRoomView.swift */,
+				F01164FD2D2ECF720037A2B4 /* RoomDetailView.swift */,
+				F01164FE2D2ECF720037A2B4 /* RoomListItem.swift */,
 				F05C59482D2EC58E001A137C /* CreateOrJoinCollectiveView.swift */,
 				F05C59442D2EC327001A137C /* JoinCollectiveView.swift */,
 				F05C59452D2EC327001A137C /* WelcomeView.swift */,
@@ -196,6 +218,8 @@
 		F06CB0A42D2DB17F008B3945 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F01165092D2ED61F0037A2B4 /* RoomTaskDefaults.swift */,
+				F01165032D2ED2500037A2B4 /* CleaningPeriod.swift */,
 				F05C59422D2EB646001A137C /* Invitation.swift */,
 				F05C593A2D2EAFED001A137C /* Collective.swift */,
 				F05C59382D2EAFED001A137C /* RoomType.swift */,
@@ -353,6 +377,8 @@
 				F05C593F2D2EB22B001A137C /* AddMemberView.swift in Sources */,
 				F05C59432D2EB646001A137C /* Invitation.swift in Sources */,
 				F05C593D2D2EAFEE001A137C /* Collective.swift in Sources */,
+				F01165022D2ED2450037A2B4 /* EditRoomView.swift in Sources */,
+				F01165042D2ED2500037A2B4 /* CleaningPeriod.swift in Sources */,
 				F06CB0AE2D2DB367008B3945 /* TaskFilter.swift in Sources */,
 				F05C59312D2EABEB001A137C /* RoomAssignment.swift in Sources */,
 				F06CB0A72D2DB17F008B3945 /* ShoppingListView.swift in Sources */,
@@ -360,11 +386,17 @@
 				F05C59362D2EAD3D001A137C /* RoomTasksView.swift in Sources */,
 				F05C59332D2EAD30001A137C /* RoomTask.swift in Sources */,
 				F06CB0AB2D2DB17F008B3945 /* ShoppingItem.swift in Sources */,
+				F01165082D2ED4520037A2B4 /* EditTaskView.swift in Sources */,
+				F01164FF2D2ECF720037A2B4 /* RoomDetailView.swift in Sources */,
+				F01165062D2ED3C00037A2B4 /* AddTaskView.swift in Sources */,
 				F06CB0782D2DB062008B3945 /* ContentView.swift in Sources */,
 				F05C59472D2EC327001A137C /* WelcomeView.swift in Sources */,
+				F011650A2D2ED61F0037A2B4 /* RoomTaskDefaults.swift in Sources */,
 				F05C593C2D2EAFEE001A137C /* User.swift in Sources */,
+				F01165002D2ECF720037A2B4 /* RoomListItem.swift in Sources */,
 				F05C59372D2EAD3D001A137C /* AddRoomView.swift in Sources */,
 				F06CB0762D2DB062008B3945 /* KollektivApp.swift in Sources */,
+				F011650C2D2ED6280037A2B4 /* TaskRow.swift in Sources */,
 				F05C592D2D2EAABE001A137C /* Room.swift in Sources */,
 				F05C59492D2EC58F001A137C /* CreateOrJoinCollectiveView.swift in Sources */,
 			);

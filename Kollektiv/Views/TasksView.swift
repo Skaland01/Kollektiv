@@ -69,7 +69,7 @@ struct TasksView: View {
                 List {
                     if selectedFilter != .history {
                         ForEach(filteredTasks) { task in
-                            TaskRow(task: task, showAssignee: selectedFilter == .allTasks)
+                            CollectiveTaskRow(task: task, showAssignee: selectedFilter == .allTasks)
                                 .swipeActions(edge: .trailing) {
                                     Button {
                                         markTaskComplete(task)
@@ -119,7 +119,7 @@ struct TasksView: View {
 }
 
 // Task Row View
-struct TaskRow: View {
+struct CollectiveTaskRow: View {
     let task: Task
     let showAssignee: Bool
     

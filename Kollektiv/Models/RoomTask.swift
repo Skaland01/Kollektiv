@@ -1,41 +1,40 @@
 import Foundation
+import SwiftUI
 
 struct RoomTask: Identifiable, Hashable {
-    let id = UUID()
+    let id: UUID
     var name: String
-    var isCompleted: Bool = false
+    var priority: TaskPriority
+    var isCompleted: Bool
     var lastCompletedDate: Date?
-}
-
-// Move this to a separate file called RoomTaskDefaults.swift
-extension RoomTask {
-    static func defaultTasks(for roomType: RoomType) -> [RoomTask] {
-        switch roomType {
-        case .kitchen:
-            return [
-                RoomTask(name: "Wipe counters and stovetop"),
-                RoomTask(name: "Clean sink"),
-                RoomTask(name: "Take out trash"),
-                RoomTask(name: "Sweep and mop floor"),
-                RoomTask(name: "Clean microwave")
-            ]
-        case .bathroom:
-            return [
-                RoomTask(name: "Clean toilet"),
-                RoomTask(name: "Clean shower/bathtub"),
-                RoomTask(name: "Clean sink and mirror"),
-                RoomTask(name: "Sweep and mop floor"),
-                RoomTask(name: "Empty trash")
-            ]
-        case .livingRoom:
-            return [
-                RoomTask(name: "Vacuum floor"),
-                RoomTask(name: "Dust furniture"),
-                RoomTask(name: "Clean windows"),
-                RoomTask(name: "Organize common items")
-            ]
-        case .custom:
-            return []
+    
+    enum TaskPriority: String, CaseIterable {
+        case high = "High"
+        case medium = "Medium"
+        case low = "Low"
+        
+        var color: Color {
+            switch self {
+            case .high: return .red
+            case .medium: return .orange
+            case .low: return .blue
+            }
         }
+        
+        var icon: String {
+            switch self {
+            case .high: return "exclamationmark.3"
+            case .medium: return "exclamationmark.2"
+            case .low: return "exclamationmark"
+            }
+        }
+    }
+    
+    init(id: UUID = UUID(), name: String, priority: TaskPriority = .medium, isCompleted: Bool = false, lastCompletedDate: Date? = nil) {
+        self.id = id
+        self.name = name
+        self.priority = priority
+        self.isCompleted = isCompleted
+        self.lastCompletedDate = lastCompletedDate
     }
 } 

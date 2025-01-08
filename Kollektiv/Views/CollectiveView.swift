@@ -92,9 +92,23 @@ struct CollectiveView: View {
                         }
                         
                         Section(header: Text("Rooms")) {
-                            ForEach(collective.rooms) { room in
-                                RoomListItem(room: room) {
-                                    // Navigate to room detail
+                            ForEach(Array(collective.rooms.enumerated()), id: \.element.id) { index, room in
+                                let roomBinding = Binding(
+                                    get: { room },
+                                    set: { newRoom in
+                                        if let collectiveIndex = collectives.firstIndex(where: { $0.id == selectedCollective?.id }) {
+                                            var updatedCollective = collectives[collectiveIndex]
+                                            updatedCollective.rooms[index] = newRoom
+                                            collectives[collectiveIndex] = updatedCollective
+                                            selectedCollective = updatedCollective
+                                        }
+                                    }
+                                )
+                                
+                                NavigationLink {
+                                    RoomDetailView(room: roomBinding)
+                                } label: {
+                                    RoomListItem(room: room) { }
                                 }
                             }
                             .onDelete(perform: deleteRoom)
@@ -210,33 +224,5 @@ struct CollectiveView: View {
             collectives[index] = updatedCollective
             selectedCollective = updatedCollective
         }
-    }
-}
-
-struct RoomListItem: View {
-    let room: Room
-    let onTap: () -> Void
-    
-    var body: some View {
-        Button(action: onTap) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(room.name)
-                    .font(.headline)
-                
-                if !room.description.isEmpty {
-                    Text(room.description)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-                
-                if let lastCleaned = room.lastCleaned {
-                    Text("Last cleaned: \(lastCleaned, style: .date)")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-            }
-            .padding(.vertical, 4)
-        }
-        .foregroundColor(.primary)
     }
 }

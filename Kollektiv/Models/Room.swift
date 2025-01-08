@@ -6,9 +6,8 @@ struct Room: Identifiable, Hashable {
     var description: String
     var type: RoomType
     var tasks: [RoomTask]
-    var assignedMembers: [String]
+    var cleaningPeriod: CleaningPeriod
     var lastCleaned: Date?
-    var currentAssignment: RoomAssignment?
     
     init(name: String, description: String = "", type: RoomType = .custom) {
         self.id = UUID()
@@ -16,7 +15,7 @@ struct Room: Identifiable, Hashable {
         self.description = description
         self.type = type
         self.tasks = RoomTask.defaultTasks(for: type)
-        self.assignedMembers = []
+        self.cleaningPeriod = .weekly
     }
     
     func hash(into hasher: inout Hasher) {
