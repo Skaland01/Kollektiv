@@ -50,4 +50,16 @@ struct Collective: Identifiable {
     func getUpcomingAssignments(for userId: String) -> [(weekNumber: Int, rooms: [Room])] {
         roomDistributionManager.getUpcomingAssignments(for: userId)
     }
+    
+    mutating func generateSchedule(weeks: Int = 12) {
+        let schedule = roomDistributionManager.generateSchedule(
+            rooms: rooms,
+            users: members,
+            weeks: weeks
+        )
+        
+        // You can store or process the schedule here
+        print("Generated schedule for \(weeks) weeks")
+        print("Total assignments: \(schedule.reduce(0) { $0 + $1.totalRooms })")
+    }
 } 
