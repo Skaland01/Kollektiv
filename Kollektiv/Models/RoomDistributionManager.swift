@@ -3,8 +3,16 @@ import Foundation
 class RoomDistributionManager: ObservableObject {
     @Published var currentAssignments: [String: [Room]] = [:]
     @Published var weeklySchedule: [Int: [String: [Room]]] = [:]
-    private let calendar = Calendar.current
+    private let calendar: Calendar
     private var lastAssignmentCount: [String: Int] = [:]
+    
+    init() {
+        // Configure calendar with Monday as first day of week
+        var calendar = Calendar.current
+        calendar.firstWeekday = 2  // 2 represents Monday
+        calendar.minimumDaysInFirstWeek = 4  // ISO 8601 standard
+        self.calendar = calendar
+    }
     
     struct WeeklySchedule: Identifiable {
         let id = UUID()
@@ -152,22 +160,16 @@ class RoomDistributionManager: ObservableObject {
         let currentDate = Date()
         let weekDiff = week - getCurrentWeek()
         
-        // Get the start of the current week
-        var calendar = Calendar.current
-        calendar.firstWeekday = 2 // Start week on Monday
-        
         let startOfCurrentWeek = calendar.date(from: 
             calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: currentDate)
         ) ?? currentDate
         
-        // Calculate start of target week
         let weekStart = calendar.date(
             byAdding: .weekOfYear,
             value: weekDiff,
             to: startOfCurrentWeek
         ) ?? currentDate
         
-        // Calculate end of target week (6 days after start)
         let weekEnd = calendar.date(
             byAdding: .day,
             value: 6,
@@ -178,7 +180,7 @@ class RoomDistributionManager: ObservableObject {
     }
     
     private func getCurrentWeek() -> Int {
-        Calendar.current.component(.weekOfYear, from: Date())
+        calendar.component(.weekOfYear, from: Date())
     }
     
     private func printScheduleStats(_ schedule: [WeeklySchedule]) {
