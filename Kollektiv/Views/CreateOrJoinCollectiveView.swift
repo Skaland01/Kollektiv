@@ -104,11 +104,22 @@ struct CreateOrJoinCollectiveView: View {
     }
     
     private func createCollective() {
-        let newCollective = Collective(
+        // Create new collective
+        var newCollective = Collective(
             name: name,
             description: description,
-            createdBy: "currentUser" // Replace with actual user ID
+            createdBy: "currentUser"
         )
+        
+        // Add current user as admin
+        let currentUser = User(
+            username: "Your Name",  // Replace with actual user name
+            email: "your.email@example.com",  // Replace with actual email
+            role: .admin
+        )
+        newCollective.members.append(currentUser)
+        
+        // Update collectives
         collectives.append(newCollective)
         collective = newCollective
         dismiss()

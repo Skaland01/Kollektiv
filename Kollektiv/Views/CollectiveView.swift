@@ -21,17 +21,42 @@ struct CollectiveView: View {
             Group {
                 if let collective = selectedCollective {
                     List {
-                        Section(header: Text("Members")) {
+                        Section(header: Text("Members (\(collective.members.count))")) {
                             ForEach(collective.members) { member in
                                 HStack {
-                                    Text(member.username)
-                                    Spacer()
-                                    if member.id.uuidString == collective.createdBy {
-                                        Text("Admin")
+                                    Image(systemName: "person.circle.fill")
+                                        .foregroundColor(.accentColor)
+                                        .font(.title2)
+                                    
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(member.username)
+                                            .font(.headline)
+                                        Text(member.email)
                                             .font(.caption)
                                             .foregroundColor(.secondary)
                                     }
+                                    
+                                    Spacer()
+                                    
+                                    if member.id.uuidString == collective.createdBy {
+                                        Text("Admin")
+                                            .font(.caption)
+                                            .foregroundColor(.blue)
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 4)
+                                            .background(Color.blue.opacity(0.1))
+                                            .cornerRadius(8)
+                                    } else {
+                                        Text("Member")
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 4)
+                                            .background(Color.gray.opacity(0.1))
+                                            .cornerRadius(8)
+                                    }
                                 }
+                                .padding(.vertical, 4)
                             }
                             
                             Button(action: {
@@ -39,8 +64,47 @@ struct CollectiveView: View {
                             }) {
                                 HStack {
                                     Image(systemName: "person.badge.plus")
+                                        .foregroundColor(.accentColor)
                                     Text("Add Member")
+                                        .foregroundColor(.primary)
                                 }
+                            }
+                        }
+                        
+                        Section(header: Text("Overview")) {
+                            HStack(spacing: 32) {
+                                VStack {
+                                    Text("\(collective.members.count)")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                    Text("Members")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                                
+                                VStack {
+                                    Text("\(collective.rooms.count)")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                    Text("Rooms")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 8)
+                            
+                            if collective.members.count > 1 {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Current Members:")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                    
+                                    Text(collective.members.map { $0.username }.joined(separator: ", "))
+                                        .font(.callout)
+                                        .foregroundColor(.primary)
+                                }
+                                .padding(.top, 4)
                             }
                         }
                         
