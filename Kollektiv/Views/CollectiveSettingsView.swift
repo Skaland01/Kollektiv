@@ -73,17 +73,24 @@ struct CollectiveSettingsView: View {
                     }
                 }
                 
+                if collective.createdBy != "currentUser" {
+                    Section {
+                        Button(action: {
+                            showConfirmLeave = true
+                        }) {
+                            HStack {
+                                Image(systemName: "rectangle.portrait.and.arrow.right")
+                                Text("Leave Collective")
+                            }
+                            .foregroundColor(.red)
+                        }
+                    }
+                }
+                
                 if collective.createdBy == "currentUser" {
                     Section {
                         Button("Delete Collective") {
                             showConfirmDelete = true
-                        }
-                        .foregroundColor(.red)
-                    }
-                } else {
-                    Section {
-                        Button("Leave Collective") {
-                            showConfirmLeave = true
                         }
                         .foregroundColor(.red)
                     }
@@ -146,6 +153,11 @@ struct CollectiveSettingsView: View {
             collectives[index] = updatedCollective
             selectedCollective = nil
         }
+        
+        if collectives.count == 1 {
+            collectives.removeAll()
+        }
+        
         dismiss()
     }
 } 
