@@ -1,10 +1,12 @@
 import Foundation
 
 class RoomDistributionManager: ObservableObject {
-    @Published var assignments: [String: [Room]] = [:]  // [UserId: [Rooms]]
+    @Published var currentAssignments: [String: [Room]] = [:]  // [UserId: [Rooms]]
+    @Published var weeklySchedule: [Int: [String: [Room]]] = [:]  // [WeekNumber: [UserId: [Rooms]]]
+    private let calendar = Calendar.current
     
-    func distributeRooms(rooms: [Room], users: [User]) -> [String: [Room]] {
-        guard !rooms.isEmpty && !users.isEmpty else { return [:] }
+    func distributeRooms(rooms: [Room], users: [User]) {
+        guard !rooms.isEmpty && !users.isEmpty else { return }
         
         var distribution: [String: [Room]] = [:]
         var remainingRooms = rooms
@@ -35,33 +37,43 @@ class RoomDistributionManager: ObservableObject {
             }
         }
         
-        assignments = distribution
-        return distribution
+        currentAssignments = distribution
+        weeklySchedule[getCurrentWeek()] = distribution
     }
     
-    func rotateAssignments() {
-        guard !assignments.isEmpty else { return }
-        
-        let userIds = Array(assignments.keys).sorted()
-        let rooms = userIds.flatMap { assignments[$0] ?? [] }
-        
+    func rotateAssignments(users: [User]) {
+        let userIds = users.map { $0.id.uuidString }
         var newAssignments: [String: [Room]] = [:]
         
         // Rotate assignments by shifting rooms to the next user
         for (index, userId) in userIds.enumerated() {
             let nextUserIndex = (index + 1) % userIds.count
             let nextUserId = userIds[nextUserIndex]
-            newAssignments[userId] = assignments[nextUserId] ?? []
+            newAssignments[userId] = currentAssignments[nextUserId] ?? []
         }
         
-        assignments = newAssignments
+        currentAssignments = newAssignments
+        weeklySchedule[getCurrentWeek() + 1] = newAssignments
     }
     
-    func getCurrentAssignment(for userId: String) -> [Room] {
-        return assignments[userId] ?? []
+    func getCurrentAssignments(for userId: String) -> [Room] {
+        return currentAssignments[userId] ?? []
     }
     
-    func isRoomAssigned(to userId: String, room: Room) -> Bool {
-        return assignments[userId]?.contains(where: { $0.id == room.id }) ?? false
+    func getUpcomingAssignments(for userId: String, weeks: Int = 4) -> [(weekNumber: Int, rooms: [Room])] {
+        let currentWeek = getCurrentWeek()
+        var upcoming: [(weekNumber: Int, rooms: [Room])] = []
+        
+        for week in currentWeek...(currentWeek + weeks) {
+            if let weekAssignments = weeklySchedule[week] {
+                upcoming.append((week, weekAssignments[userId] ?? []))
+            }
+        }
+        
+        return upcoming
+    }
+    
+    private func getCurrentWeek() -> Int {
+        return calendar.component(.weekOfYear, from: Date())
     }
 } 

@@ -10,7 +10,7 @@ struct Collective: Identifiable {
     var inviteCode: String
     var createdBy: String
     var createdDate: Date
-    private(set) var roomDistribution: [String: [Room]]
+    var roomDistributionManager: RoomDistributionManager
     
     init(name: String, description: String = "", createdBy: String) {
         self.id = UUID()
@@ -22,7 +22,7 @@ struct Collective: Identifiable {
         self.inviteCode = Self.generateInviteCode()
         self.createdBy = createdBy
         self.createdDate = Date()
-        self.roomDistribution = [:]
+        self.roomDistributionManager = RoomDistributionManager()
     }
     
     private static func generateInviteCode() -> String {
@@ -31,26 +31,23 @@ struct Collective: Identifiable {
     }
     
     mutating func generateNewInviteCode() {
-        // Generate a new 8-character alphanumeric code
         let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        self.inviteCode = String((0..<8).map { _ in
-            characters.randomElement()!
-        })
+        self.inviteCode = String((0..<8).map { _ in characters.randomElement()! })
     }
     
     mutating func distributeRooms() {
-        let manager = RoomDistributionManager()
-        self.roomDistribution = manager.distributeRooms(rooms: rooms, users: members)
+        roomDistributionManager.distributeRooms(rooms: rooms, users: members)
     }
     
     mutating func rotateRoomAssignments() {
-        let manager = RoomDistributionManager()
-        manager.assignments = self.roomDistribution
-        manager.rotateAssignments()
-        self.roomDistribution = manager.assignments
+        roomDistributionManager.rotateAssignments(users: members)
     }
     
-    func getRoomsAssigned(to userId: String) -> [Room] {
-        return roomDistribution[userId] ?? []
+    func getCurrentAssignments(for userId: String) -> [Room] {
+        roomDistributionManager.getCurrentAssignments(for: userId)
+    }
+    
+    func getUpcomingAssignments(for userId: String) -> [(weekNumber: Int, rooms: [Room])] {
+        roomDistributionManager.getUpcomingAssignments(for: userId)
     }
 } 

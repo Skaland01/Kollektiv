@@ -77,12 +77,30 @@ struct TasksView: View {
                 
                 // Show assigned rooms
                 if selectedFilter == .myTasks {
-                    let assignedRooms = collective.getRoomsAssigned(to: currentUserId)
-                    if !assignedRooms.isEmpty {
-                        Section("Your Assigned Rooms") {
-                            ForEach(assignedRooms) { room in
+                    // Current week assignments
+                    let currentAssignments = collective.getCurrentAssignments(for: currentUserId)
+                    if !currentAssignments.isEmpty {
+                        Section("This Week's Rooms") {
+                            ForEach(currentAssignments) { room in
                                 RoomListItem(room: room) {
                                     // Handle room selection
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Upcoming assignments
+                    let upcomingAssignments = collective.getUpcomingAssignments(for: currentUserId)
+                    if !upcomingAssignments.isEmpty {
+                        Section("Upcoming Assignments") {
+                            ForEach(upcomingAssignments, id: \.weekNumber) { week in
+                                VStack(alignment: .leading) {
+                                    Text("Week \(week.weekNumber)")
+                                        .font(.headline)
+                                    ForEach(week.rooms) { room in
+                                        Text(room.name)
+                                            .font(.subheadline)
+                                    }
                                 }
                             }
                         }
