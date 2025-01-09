@@ -2,35 +2,33 @@ import SwiftUI
 
 struct RoomTasksView: View {
     @Binding var room: Room
-    @State private var newTaskName = ""
+    @State private var editMode = EditMode.inactive
     @State private var showAddTask = false
+    @State private var newTaskName = ""
     
     var body: some View {
         List {
-            Section {
-                ForEach(room.tasks) { task in
-                    TaskChecklistItem(task: binding(for: task))
-                }
-                .onDelete(perform: deleteTasks)
-                
-                Button(action: {
-                    showAddTask = true
-                }) {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                        Text("Add Task")
-                    }
-                }
-            } header: {
-                Text("Cleaning Tasks")
-            } footer: {
-                if !room.tasks.isEmpty {
-                    Text("Swipe left to delete tasks")
-                        .font(.caption)
-                }
+            ForEach(room.tasks.indices, id: \.self) { index in
+                TaskRowView(task: binding(for: index))
+            }
+            .onMove { from, to in
+                room.tasks.move(fromOffsets: from, toOffset: to)
+            }
+            .onDelete { indexSet in
+                room.tasks.remove(atOffsets: indexSet)
+            }
+            
+            Button {
+                showAddTask = true
+            } label: {
+                Label("Add Task", systemImage: "plus.circle.fill")
             }
         }
-        .navigationTitle(room.name)
+        .listStyle(.insetGrouped)
+        .environment(\.editMode, $editMode)
+        .toolbar {
+            EditButton()
+        }
         .alert("Add Task", isPresented: $showAddTask) {
             TextField("Task name", text: $newTaskName)
             Button("Cancel", role: .cancel) { }
@@ -42,11 +40,11 @@ struct RoomTasksView: View {
         }
     }
     
-    private func binding(for task: RoomTask) -> Binding<RoomTask> {
-        guard let taskIndex = room.tasks.firstIndex(where: { $0.id == task.id }) else {
-            fatalError("Task not found")
-        }
-        return $room.tasks[taskIndex]
+    private func binding(for index: Int) -> Binding<RoomTask> {
+        Binding(
+            get: { room.tasks[index] },
+            set: { room.tasks[index] = $0 }
+        )
     }
     
     private func addTask() {
@@ -55,35 +53,42 @@ struct RoomTasksView: View {
         room.tasks.append(task)
         newTaskName = ""
     }
-    
-    private func deleteTasks(at offsets: IndexSet) {
-        room.tasks.remove(atOffsets: offsets)
-    }
 }
 
-struct TaskChecklistItem: View {
+struct TaskRowView: View {
     @Binding var task: RoomTask
     
     var body: some View {
         HStack {
-            Button(action: {
+            Button {
                 task.isCompleted.toggle()
                 if task.isCompleted {
                     task.lastCompletedDate = Date()
+                } else {
+                    task.lastCompletedDate = nil
                 }
-            }) {
+            } label: {
                 Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
                     .foregroundColor(task.isCompleted ? .green : .gray)
             }
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(task.name)
                     .strikethrough(task.isCompleted)
                 
-                if let completedDate = task.lastCompletedDate {
-                    Text("Completed: \(completedDate, style: .date)")
+                HStack {
+                    Image(systemName: task.priority.icon)
+                        .foregroundColor(task.priority.color)
+                    Text(task.priority.displayName)
                         .font(.caption)
                         .foregroundColor(.secondary)
+                    
+                    if let completedDate = task.lastCompletedDate {
+                        Spacer()
+                        Text(completedDate, style: .date)
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                    }
                 }
             }
         }

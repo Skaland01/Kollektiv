@@ -10,6 +10,7 @@ struct Collective: Identifiable {
     var inviteCode: String
     var createdBy: String
     var createdDate: Date
+    private(set) var roomDistribution: [String: [Room]]
     
     init(name: String, description: String = "", createdBy: String) {
         self.id = UUID()
@@ -21,6 +22,7 @@ struct Collective: Identifiable {
         self.inviteCode = Self.generateInviteCode()
         self.createdBy = createdBy
         self.createdDate = Date()
+        self.roomDistribution = [:]
     }
     
     private static func generateInviteCode() -> String {
@@ -34,5 +36,21 @@ struct Collective: Identifiable {
         self.inviteCode = String((0..<8).map { _ in
             characters.randomElement()!
         })
+    }
+    
+    mutating func distributeRooms() {
+        let manager = RoomDistributionManager()
+        self.roomDistribution = manager.distributeRooms(rooms: rooms, users: members)
+    }
+    
+    mutating func rotateRoomAssignments() {
+        let manager = RoomDistributionManager()
+        manager.assignments = self.roomDistribution
+        manager.rotateAssignments()
+        self.roomDistribution = manager.assignments
+    }
+    
+    func getRoomsAssigned(to userId: String) -> [Room] {
+        return roomDistribution[userId] ?? []
     }
 } 

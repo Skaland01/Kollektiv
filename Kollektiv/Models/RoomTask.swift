@@ -28,6 +28,10 @@ struct RoomTask: Identifiable, Hashable {
             case .low: return "exclamationmark"
             }
         }
+        
+        var displayName: String {
+            self.rawValue
+        }
     }
     
     init(id: UUID = UUID(), name: String, priority: TaskPriority = .medium, isCompleted: Bool = false, lastCompletedDate: Date? = nil) {
@@ -36,5 +40,13 @@ struct RoomTask: Identifiable, Hashable {
         self.priority = priority
         self.isCompleted = isCompleted
         self.lastCompletedDate = lastCompletedDate
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: RoomTask, rhs: RoomTask) -> Bool {
+        lhs.id == rhs.id
     }
 } 

@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct TasksView: View {
+    @Binding var collective: Collective
     @State private var tasks: [Task] = Task.sampleTasks
     @State private var selectedFilter: TaskFilter = .myTasks
     @State private var selectedCategory: TaskCategory = .washing
@@ -73,6 +74,20 @@ struct TasksView: View {
                         .padding(.horizontal)
                 }
                 .background(Color(.systemBackground))
+                
+                // Show assigned rooms
+                if selectedFilter == .myTasks {
+                    let assignedRooms = collective.getRoomsAssigned(to: currentUserId)
+                    if !assignedRooms.isEmpty {
+                        Section("Your Assigned Rooms") {
+                            ForEach(assignedRooms) { room in
+                                RoomListItem(room: room) {
+                                    // Handle room selection
+                                }
+                            }
+                        }
+                    }
+                }
                 
                 // Task List
                 List {
