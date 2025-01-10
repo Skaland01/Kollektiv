@@ -5,10 +5,16 @@ struct RoomDetailView: View {
     @Binding var room: Room
     @State private var isEditing = false
     @State private var showAddTask = false
+    @State private var showTaskLimit = false
+    @State private var showEditTaskSheet = false
     @State private var editingName: String
     @State private var editingDescription: String
     @State private var editingType: RoomType
     @State private var editingPeriod: CleaningPeriod
+    @State private var newTaskName = ""
+    @State private var selectedTask: RoomTask?
+    
+    private let taskLimit = 10
     
     init(room: Binding<Room>) {
         self._room = room
@@ -20,33 +26,28 @@ struct RoomDetailView: View {
     
     var body: some View {
         List {
-            Section("Tasks") {
-                ForEach(room.tasks) { task in
-                    TaskRow(
-                        task: task,
-                        onToggle: {
-                            withAnimation {
-                                toggleTask(task)
-                            }
-                        },
-                        onTap: {
-                            if isEditing {
-                                // Show inline task editing
-                            }
+            Section("Tasks (\(room.tasks.count)/\(taskLimit))") {
+                ForEach($room.tasks) { $task in
+                    TaskRow(task: task) {
+                        withAnimation {
+                            toggleTask(task)
                         }
-                    )
-                }
-                .onMove { from, to in
-                    var updatedTasks = room.tasks
-                    updatedTasks.move(fromOffsets: from, toOffset: to)
-                    room.tasks = updatedTasks
+                    } onTap: {
+                        if isEditing {
+                            selectedTask = task
+                            showEditTaskSheet = true
+                        }
+                    }
                 }
                 .onDelete(perform: deleteTask)
+                .onMove(perform: moveTask)
                 
-                Button(action: {
-                    showAddTask = true
-                }) {
-                    Label("Add Task", systemImage: "plus")
+                if room.tasks.count < taskLimit {
+                    Button(action: {
+                        showAddTask = true
+                    }) {
+                        Label("Add Task", systemImage: "plus")
+                    }
                 }
             }
             
@@ -145,7 +146,53 @@ struct RoomDetailView: View {
             }
         }
         .sheet(isPresented: $showAddTask) {
-            AddTaskView(tasks: $room.tasks)
+            NavigationView {
+                Form {
+                    Section {
+                        TextField("Task Name", text: $newTaskName)
+                    }
+                    
+                    Section {
+                        Text("Tasks remaining: \(taskLimit - room.tasks.count)")
+                            .foregroundColor(.secondary)
+                    }
+                }
+                .navigationTitle("Add Task")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") {
+                            showAddTask = false
+                            newTaskName = ""
+                        }
+                    }
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Add") {
+                            addTask()
+                        }
+                        .disabled(newTaskName.isEmpty || room.tasks.count >= taskLimit)
+                    }
+                }
+            }
+        }
+        .sheet(isPresented: $showEditTaskSheet, onDismiss: {
+            selectedTask = nil
+        }) {
+            if let task = selectedTask {
+                EditTaskSheet(task: Binding(
+                    get: { task },
+                    set: { updatedTask in
+                        if let index = room.tasks.firstIndex(where: { $0.id == task.id }) {
+                            room.tasks[index] = updatedTask
+                        }
+                    }
+                ))
+            }
+        }
+        .alert("Task Limit Reached", isPresented: $showTaskLimit) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("You can only add up to \(taskLimit) tasks for this room.")
         }
         .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
     }
@@ -168,7 +215,33 @@ struct RoomDetailView: View {
         }
     }
     
+    private func moveTask(from source: IndexSet, to destination: Int) {
+        var updatedTasks = room.tasks
+        updatedTasks.move(fromOffsets: source, toOffset: destination)
+        room.tasks = updatedTasks
+    }
+    
     private func deleteTask(at offsets: IndexSet) {
         room.tasks.remove(atOffsets: offsets)
+    }
+    
+    private func addTask() {
+        guard room.tasks.count < taskLimit else {
+            showTaskLimit = true
+            return
+        }
+        
+        let task = RoomTask(
+            name: newTaskName,
+            priority: .medium,
+            isCompleted: false
+        )
+        
+        withAnimation {
+            room.tasks.append(task)
+        }
+        
+        newTaskName = ""
+        showAddTask = false
     }
 } 
